@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    
+    tools {
+    maven 'maven-391' // Use whatever name you configured
+}
     environment {
         DOCKER_HUB = credentials('docker-id')
     }
