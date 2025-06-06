@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB = credentials('docker-hub-credentials')
+        DOCKER_HUB = credentials('docker-id')
         AWS_ACCESS_KEY_ID = credentials('aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
     }
@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourusername/simple-web-app.git'
+                git branch: 'main', url: 'https://github.com/blackcouger/sample-java-app.git'
             }
         }
         
@@ -42,7 +42,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("yourusername/web-app:${env.BUILD_ID}")
+                    dockerImage = docker.build("docker4241/web-app:${env.BUILD_ID}")
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-id') {
                         dockerImage.push()
                     }
                 }
